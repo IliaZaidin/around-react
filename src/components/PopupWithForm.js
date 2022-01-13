@@ -1,4 +1,4 @@
-function PopupWithForms(props) {
+function PopupWithForm(props) {
   return (
     <>
       <section className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_is_opened' : ''}`}  >
@@ -15,4 +15,4 @@ function PopupWithForms(props) {
   );
 }
 
-export default PopupWithForms;
+export default PopupWithForm;
