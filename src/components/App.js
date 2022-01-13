@@ -7,26 +7,26 @@ import Input from './Input';
 import ImagePopup from './ImagePopup';
 
 export default function App() {
-  const [isEditAvatarPopupOpen, setAvatarState] = React.useState(false);
-  const [isEditProfilePopupOpen, setProfileState] = React.useState(false);
-  const [isAddPlacePopupOpen, setAddPlaceState] = React.useState(false);
-  const [selectedCard, setSelectedCardState] = React.useState(false);
+  const [isEditAvatarPopupOpen, setAvatarPopupState] = React.useState(false);
+  const [isEditProfilePopupOpen, setProfilePopupState] = React.useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupState] = React.useState(false);
+  const [isCardPopupOpen, setCardPopupState] = React.useState(false);
   const [cardData, setCardData] = React.useState({});
 
   function handleEditAvatarClick() {
-    setAvatarState(true);
+    setAvatarPopupState(true);
   }
 
   function handleEditProfileClick() {
-    setProfileState(true);
+    setProfilePopupState(true);
   }
 
   function handleAddPlaceClick() {
-    setAddPlaceState(true);
+    setAddPlacePopupState(true);
   }
 
   function handleCardClick() {
-    setSelectedCardState(true);
+    setCardPopupState(true);
   }
 
   function handleCardData(cardData) {
@@ -34,10 +34,10 @@ export default function App() {
   }
 
   function closeAllPopups() {
-    setAvatarState(false);
-    setProfileState(false);
-    setAddPlaceState(false);
-    setSelectedCardState(false);
+    setAvatarPopupState(false);
+    setProfilePopupState(false);
+    setAddPlacePopupState(false);
+    setCardPopupState(false);
   }
 
   return (
@@ -74,7 +74,7 @@ export default function App() {
           <PopupWithForm name='confirm' buttonText='Yes' headerText="Are you sure?" onClose={closeAllPopups} />
 
           {/* Expand picture */}
-          <ImagePopup onClose={closeAllPopups} isOpen={selectedCard} cardData={cardData} />
+          <ImagePopup onClose={closeAllPopups} isOpen={isCardPopupOpen} cardData={cardData} />
 
           <Footer />
         </div>
