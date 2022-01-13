@@ -1,4 +1,4 @@
-# Project #5 in the course Applied JavaScript.
+# Project #5 in the course Creating an Interface with React.
 The objective is building a one page site using the following tools: React.JS.
 
 Technologies used: React.JS

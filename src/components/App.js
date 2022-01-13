@@ -1,5 +1,4 @@
 import React from 'react';
-import '../index.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -11,7 +10,8 @@ export default function App() {
   const [isEditAvatarPopupOpen, setAvatarState] = React.useState(false);
   const [isEditProfilePopupOpen, setProfileState] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlaceState] = React.useState(false);
-  const [selectedCard, setSelectedCardState] = React.useState({ state: false, card: {} });
+  const [selectedCard, setSelectedCardState] = React.useState(false);
+  const [cardData, setCardData] = React.useState({});
 
   function handleEditAvatarClick() {
     setAvatarState(true);
@@ -25,15 +25,19 @@ export default function App() {
     setAddPlaceState(true);
   }
 
-  function handleCardClick(cardData) {
-    setSelectedCardState({ state: true, card: cardData });
+  function handleCardClick() {
+    setSelectedCardState(true);
+  }
+
+  function handleCardData(cardData) {
+    setCardData(cardData);
   }
 
   function closeAllPopups() {
     setAvatarState(false);
     setProfileState(false);
     setAddPlaceState(false);
-    setSelectedCardState( { ...selectedCard, state: false, });
+    setSelectedCardState(false);
   }
 
   return (
@@ -46,6 +50,7 @@ export default function App() {
             onAddPlaceClick={handleAddPlaceClick}
             onEditAvatarClick={handleEditAvatarClick}
             onCardClick={handleCardClick}
+            updateCardData={handleCardData}
           />
 
           {/* Edit profile */}
@@ -69,7 +74,7 @@ export default function App() {
           <PopupWithForm name='confirm' buttonText='Yes' headerText="Are you sure?" onClose={closeAllPopups} />
 
           {/* Expand picture */}
-          <ImagePopup onClose={closeAllPopups} isOpen={selectedCard.state} card={selectedCard.card} />
+          <ImagePopup onClose={closeAllPopups} isOpen={selectedCard.state} cardState={selectedCard} cardData={cardData} />
 
           <Footer />
         </div>
