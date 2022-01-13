@@ -1,7 +1,8 @@
 function Card(props) {
 
   const passDataToPopup = () => {
-    props.onClick(props.card);
+    props.onClick();
+    props.updateCardData(props.card);
   }
 
   return (

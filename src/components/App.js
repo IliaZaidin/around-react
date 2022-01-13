@@ -74,7 +74,7 @@ export default function App() {
           <PopupWithForm name='confirm' buttonText='Yes' headerText="Are you sure?" onClose={closeAllPopups} />
 
           {/* Expand picture */}
-          <ImagePopup onClose={closeAllPopups} isOpen={selectedCard.state} cardState={selectedCard} cardData={cardData} />
+          <ImagePopup onClose={closeAllPopups} isOpen={selectedCard} cardData={cardData} />
 
           <Footer />
         </div>
