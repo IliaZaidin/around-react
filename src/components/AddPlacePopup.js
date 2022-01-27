@@ -3,12 +3,17 @@ import PopupWithForm from './PopupWithForm';
 import Input from './Input';
 
 export default function AddPlacePopup(props) {
+  const {
+    isOpen,
+    onClose,
+    onAddPlaceSubmit
+  } = props;
   const [cardTitle, setCardTitle] = React.useState('');
   const [cardLink, setCardLink] = React.useState('');
 
   function handleSubmit(event) {
     event.preventDefault();
-    props.onAddPlaceSubmit({
+    onAddPlaceSubmit({
       name: cardTitle,
       link: cardLink,
     });
@@ -28,8 +33,8 @@ export default function AddPlacePopup(props) {
         name='card'
         buttonText='Create'
         headerText="New place"
-        isOpen={props.isOpen}
-        onClose={props.onClose}
+        isOpen={isOpen}
+        onClose={onClose}
         onSubmit={handleSubmit}
       >
 

@@ -53,26 +53,22 @@ export default function App() {
     api.editProfile(inputData.name, inputData.about)
       .then(data => {
         setCurrentUser(data);
+        closeAllPopups();
       })
       .catch((err) => {
         console.log("Error: ", err.status, err.statusText);
-      })
-      .finally(() =>
-        closeAllPopups()
-      );
+      });
   }
 
   function handleUpdateAvatar(inputData) {
     api.updateProfilePicture(inputData.avatar)
       .then(data => {
         setCurrentUser(data);
+        closeAllPopups();
       })
       .catch((err) => {
         console.log("Error: ", err.status, err.statusText);
-      })
-      .finally(() =>
-        closeAllPopups()
-      );
+      });
   }
 
   function closeAllPopups() {
@@ -101,7 +97,7 @@ export default function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(item => item._id === currentUser._id);
 
     if (!isLiked) {
       api.like(card._id)
@@ -138,12 +134,10 @@ export default function App() {
     api.addCard(cardData.name, cardData.link)
       .then(newCard =>
         setCards([newCard, ...cards]))
+        closeAllPopups()
       .catch((err) => {
         console.log("Error: ", err.status, err.statusText);
-      })
-      .finally(() =>
-        closeAllPopups()
-      );
+      });
   }
 
   return (

@@ -2,11 +2,16 @@ import React from "react";
 import PopupWithForm from './PopupWithForm';
 
 export default function EditAvatarPopup(props) {
+  const {
+    isOpen,
+    onClose,
+    onUpdateAvatar
+  } = props;
   const avatarLinkRef = React.useRef();
 
   function handleSubmit(event) {
     event.preventDefault();
-    props.onUpdateAvatar({
+    onUpdateAvatar({
       avatar: avatarLinkRef.current.value
     });
   }
@@ -16,8 +21,8 @@ export default function EditAvatarPopup(props) {
       name='avatar'
       buttonText='Save'
       headerText="Change profile picture"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}
     >
       {/* Input component is not used here to use ref per project requirements */}

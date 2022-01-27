@@ -1,18 +1,25 @@
 function Input(props) {
+  const {
+    inputName,
+    type,
+    placeholder,
+    onChange,
+    value
+  } = props;
   return (
     <>
       <input
-        name={props.inputName}
-        id={props.type}
-        className={`form__input form__input_type_${props.type}`}
+        name={inputName}
+        id={type}
+        className={`form__input form__input_type_${type}`}
         type="text"
-        placeholder={props.placeholder}
+        placeholder={placeholder}
         minLength="2"
         required
-        onChange={props.onChange}
-        value={props.value}
+        onChange={onChange}
+        value={value}
       />
-      <span id={`input_type_${props.type}_error`} className="form__error"></span>
+      <span id={`input_type_${type}_error`} className="form__error"></span>
     </>
   );
 }
