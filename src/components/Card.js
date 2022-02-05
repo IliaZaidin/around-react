@@ -7,7 +7,7 @@ function Card(props) {
     onClick,
     updateCardData,
     onCardLike,
-    onCardDelete
+    onCardDeleteClick
   } = props;
   const currentUser = React.useContext(CurrentUserContext);
 
@@ -27,7 +27,7 @@ function Card(props) {
   }
 
   function handleDeleteClick() {
-    onCardDelete(card);
+    onCardDeleteClick(card);
   }
 
   return (

@@ -14,6 +14,7 @@ export default function EditAvatarPopup(props) {
     onUpdateAvatar({
       avatar: avatarLinkRef.current.value
     });
+    event.target.reset();
   }
 
   return (

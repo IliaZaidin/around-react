@@ -16,8 +16,8 @@ function Input(props) {
         placeholder={placeholder}
         minLength="2"
         required
-        onChange={onChange}
-        value={value}
+        onKeyUp={onChange}
+        defaultValue={value}
       />
       <span id={`input_type_${type}_error`} className="form__error"></span>
     </>

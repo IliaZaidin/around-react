@@ -17,6 +17,7 @@ export default function AddPlacePopup(props) {
       name: cardTitle,
       link: cardLink,
     });
+    event.target.reset();
   }
 
   function handleCardTitleChange(event) {
@@ -28,31 +29,29 @@ export default function AddPlacePopup(props) {
   }
 
   return (
-    <>
-      <PopupWithForm
-        name='card'
-        buttonText='Create'
-        headerText="New place"
-        isOpen={isOpen}
-        onClose={onClose}
-        onSubmit={handleSubmit}
-      >
+    <PopupWithForm
+      name='card'
+      buttonText='Create'
+      headerText="New place"
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={handleSubmit}
+    >
 
-        <Input
-          inputName="card_title"
-          type="title"
-          placeholder="Title"
-          onChange={handleCardTitleChange}
-        />
+      <Input
+        inputName="card_title"
+        type="title"
+        placeholder="Title"
+        onChange={handleCardTitleChange}
+      />
 
-        <Input
-          inputName="card_link"
-          type="link"
-          placeholder="Image link"
-          onChange={handleCardLinkChange}
-        />
+      <Input
+        inputName="card_link"
+        type="link"
+        placeholder="Image link"
+        onChange={handleCardLinkChange}
+      />
 
-      </PopupWithForm>
-    </>
+    </PopupWithForm>
   )
 }

@@ -9,7 +9,7 @@ export default function EditProfilePopup(props) {
     onClose,
     onUpdateUser
   } = props;
-  
+
   const currentUser = React.useContext(CurrentUserContext);
   const [profileName, setProfileName] = React.useState('');
   const [profileJob, setProfileJob] = React.useState('');
@@ -36,31 +36,29 @@ export default function EditProfilePopup(props) {
   }, [currentUser]);
 
   return (
-    <>
-      <PopupWithForm
-        buttonText="Save"
-        headerText="Edit profile"
-        name="profile"
-        isOpen={isOpen}
-        onClose={onClose}
-        onSubmit={handleSubmit}
-      >
-        <Input
-          inputName="profile_name"
-          type="name" value={profileName}
-          placeholder="Full name"
-          onChange={handleProfileNameChange}
-        />
+    <PopupWithForm
+      buttonText="Save"
+      headerText="Edit profile"
+      name="profile"
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={handleSubmit}
+    >
+      <Input
+        inputName="profile_name"
+        type="name" 
+        value={profileName}
+        placeholder="Full name"
+        onChange={handleProfileNameChange}
+      />
 
-        <Input
-          inputName="profile_job"
-          type="about"
-          value={profileJob}
-          placeholder="Occupation"
-          onChange={handleProfileJobChange}
-        />
-
-      </PopupWithForm>
-    </>
+      <Input
+        inputName="profile_job"
+        type="about"
+        value={profileJob}
+        placeholder="Occupation"
+        onChange={handleProfileJobChange}
+      />
+    </PopupWithForm>
   )
 }

@@ -6,6 +6,7 @@ import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import ConfirmDeletePopup from './ConfirmDeletePopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
@@ -14,10 +15,12 @@ export default function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupState] = React.useState(false);
   const [isCardPopupOpen, setCardPopupState] = React.useState(false);
   const [isEditProfilePopupOpen, setProfilePopupState] = React.useState(false);
+  const [isDeleteConfirmationOpen, setDeleteConfirmationState] = React.useState(false);
+
   const [cardData, setCardData] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
-
+  const [cardToDelete, setCardToDelete] = React.useState({});
 
   React.useEffect(() => {
     api.getUserData()
@@ -28,6 +31,7 @@ export default function App() {
         console.log("Error: ", err.status, err.statusText);
       });
   }, []);
+
 
   function handleEditAvatarClick() {
     setAvatarPopupState(true);
@@ -45,9 +49,33 @@ export default function App() {
     setCardPopupState(true);
   }
 
+  function handleCardDeleteClick(card) {
+    setDeleteConfirmationState(true);
+    setCardToDelete(card);
+  }
+
+  function closeAllPopups() {
+    setAvatarPopupState(false);
+    setProfilePopupState(false);
+    setAddPlacePopupState(false);
+    setCardPopupState(false);
+    setDeleteConfirmationState(false);
+  }
+
   function handleCardData(cardData) {
     setCardData(cardData);
   }
+
+  // load cards from server
+  React.useEffect(() => {
+    api.getCards()
+      .then(data => {
+        setCards(data);
+      })
+      .catch((err) => {
+        console.log("Error: ", err.status, err.statusText);
+      });
+  }, []);
 
   function handleUpdateUser(inputData) {
     api.editProfile(inputData.name, inputData.about)
@@ -70,24 +98,6 @@ export default function App() {
         console.log("Error: ", err.status, err.statusText);
       });
   }
-
-  function closeAllPopups() {
-    setAvatarPopupState(false);
-    setProfilePopupState(false);
-    setAddPlacePopupState(false);
-    setCardPopupState(false);
-  }
-
-  // load cards from server
-  React.useEffect(() => {
-    api.getCards()
-      .then(data => {
-        setCards(data);
-      })
-      .catch((err) => {
-        console.log("Error: ", err.status, err.statusText);
-      });
-  }, []);
 
   function toggleLike(card) {
     setCards(cards =>
@@ -118,13 +128,16 @@ export default function App() {
     }
   }
 
-  function handleCardDelete(card) {
-    api.deleteCard(card._id)
+  function handleCardDelete(event) {
+    event.preventDefault();
+    api.deleteCard(cardToDelete._id)
       .then(() =>
         setCards(cards =>
           cards.filter(element =>
-            element._id !== card._id)
-        ))
+            element._id !== cardToDelete._id)
+        ),
+        closeAllPopups()
+      )
       .catch((err) => {
         console.log("Error: ", err.status, err.statusText);
       });
@@ -133,66 +146,63 @@ export default function App() {
   function handleAddPlaceSubmit(cardData) {
     api.addCard(cardData.name, cardData.link)
       .then(newCard =>
-        setCards([newCard, ...cards]))
+        setCards([newCard, ...cards]),
         closeAllPopups()
+      )
       .catch((err) => {
         console.log("Error: ", err.status, err.statusText);
       });
   }
 
   return (
-    <>
-      <CurrentUserContext.Provider value={currentUser}>
-        <div className="page">
-          <div className="page__wrapper">
-            <Header />
-            <Main
-              onEditProfileClick={handleEditProfileClick}
-              onAddPlaceClick={handleAddPlaceClick}
-              onEditAvatarClick={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              updateCardData={handleCardData}
-              cards={cards}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
-            />
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page" >
+        <div className="page__wrapper" >
+          <Header />
+          <Main
+            onEditProfileClick={handleEditProfileClick}
+            onAddPlaceClick={handleAddPlaceClick}
+            onEditAvatarClick={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            updateCardData={handleCardData}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDeleteClick={handleCardDeleteClick}
+          />
 
-            <EditProfilePopup
-              isOpen={isEditProfilePopupOpen}
-              onClose={closeAllPopups}
-              onUpdateUser={handleUpdateUser}
-            />
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser}
+          />
 
-            <EditAvatarPopup
-              isOpen={isEditAvatarPopupOpen}
-              onClose={closeAllPopups}
-              onUpdateAvatar={handleUpdateAvatar}
-            />
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+          />
 
-            <AddPlacePopup
-              isOpen={isAddPlacePopupOpen}
-              onClose={closeAllPopups}
-              onAddPlaceSubmit={handleAddPlaceSubmit}
-            />
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onAddPlaceSubmit={handleAddPlaceSubmit}
+          />
 
-            {/* Delete card confirmation */}
-            {/* <PopupWithForm
-              name='confirm'
-              buttonText='Yes'
-              headerText="Are you sure?"
-              onClose={closeAllPopups}
-            /> */}
+          <ConfirmDeletePopup
+            isOpen={isDeleteConfirmationOpen}
+            onClose={closeAllPopups}
+            onSubmit={handleCardDelete}
+          />
 
-            <ImagePopup
-              onClose={closeAllPopups}
-              isOpen={isCardPopupOpen}
-              cardData={cardData}
-            />
+          <ImagePopup
+            onClose={closeAllPopups}
+            isOpen={isCardPopupOpen}
+            cardData={cardData}
+          />
 
-            <Footer />
-          </div>
+          <Footer />
         </div>
-      </CurrentUserContext.Provider>
-    </>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
